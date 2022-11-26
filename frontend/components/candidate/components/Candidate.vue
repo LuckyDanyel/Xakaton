@@ -1,4 +1,5 @@
 <script>
+    import { computed, isReactive, unref } from 'vue';
     import { useStore } from 'vuex';
     import Procent from './Procent.vue';
     import Qualites from './Qualites.vue';
@@ -12,8 +13,12 @@
             skills: Array,
             personalQualites: Array,
             professionalQualites: Array,
+            procentValue: {
+                type: Number,
+                default: () => 0,
+            }
         },
-        setup() {
+        setup(props) {
 
         }
     }
@@ -27,7 +32,9 @@
                     <div class="candidate__name-profession"> Программист </div>
                     <div class="candidate__name-icon"></div>
                 </div>
-                <procent></procent>
+                <procent
+                    :procent="procentValue"
+                ></procent>
             </div>
             <div class="candidate__middle">
                 <qualites
@@ -46,6 +53,7 @@
 
 <style lang="scss">
     .candidate {
+        margin-bottom: 40px;
         &__name-icon {
             background-image: url('./images/icon-best.svg');
             background-repeat: no-repeat;
@@ -55,7 +63,6 @@
             cursor: pointer;
         }
         &__middle {
-            height: 70px;
             display: flex;
             flex-direction: column;
             justify-content: space-around;
@@ -63,6 +70,7 @@
         &__up {
             display: flex;
             justify-content: space-between;
+            margin-bottom: 6px;
         }
         &__name {
             display: flex;

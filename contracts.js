@@ -1,5 +1,5 @@
 
-const Candidates = [
+export const Candidates = [
     {
         industiry: {
             id: 1,
@@ -649,7 +649,7 @@ const Candidates = [
     },
 ]
 
-const filtersCandidate = {
+export const filtersCandidate = {
     industriy: [
         {
             id: 1,
