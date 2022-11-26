@@ -1,4 +1,8 @@
 const Candidate = {
+    industiry: {
+        id: 1,
+        name: 'it-техонологии'
+    },
     proffession: {
         id: 1,
         name: 'Программист'
@@ -32,36 +36,68 @@ const Candidate = {
 }
 
 const filtersCandidate = {
-    industriy: {
-        id: 1,
-        name: 'it-технологии',
-        skills: [
-            {
-
-            },
-            {
-
-            },
-
-        ],
-        professionalQualities: [
-            {
-                id: 1,
-                name: 'Базы данных',
-            },
-            {
-
-            }
-        ],
-        personalQualities: [
-            {
-
-            },
-            {
-
-            },
-        ]
-    },
+    industriy: [
+        {
+            id: 1,
+            name: 'it-технологии',
+            skills: [
+                {
+    
+                },
+                {
+    
+                },
+    
+            ],
+            professionalQualities: [
+                {
+                    id: 1,
+                    name: 'Базы данных',
+                },
+                {
+    
+                }
+            ],
+            personalQualities: [
+                {
+    
+                },
+                {
+    
+                },
+            ]
+        },
+        {
+            id: 2,
+            name: 'Финансы',
+            skills: [
+                {
+    
+                },
+                {
+    
+                },
+    
+            ],
+            professionalQualities: [
+                {
+                    id: 1,
+                    name: 'Базы данных',
+                },
+                {
+    
+                }
+            ],
+            personalQualities: [
+                {
+    
+                },
+                {
+    
+                },
+            ]
+        },
+    ],
     personalQualities: [
         {
 
