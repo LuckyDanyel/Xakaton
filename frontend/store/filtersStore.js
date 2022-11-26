@@ -23,6 +23,18 @@ export const filtersStore = {
         },
         delelteCommonQualities: (state, item) => {
             state.takenCommonPersonalQualites = state.takenCommonPersonalQualites.filter((qualite) => qualite.id !== item.id);
+        },
+        addProfessionalQualites: (state, item) => {
+            state.takenProfessionalQualites.push(item);
+        },
+        deleteProfessionalQualites: (state, item) => {
+            state.takenProfessionalQualites = state.takenProfessionalQualites.filter((qualite) => qualite.id !== item.id);
+        },
+        addSkill: (state, item) => {
+            state.takenSkills.push(item);
+        },
+        deleteSkill: (state, item) => {
+            state.takenSkills = state.takenSkills.filter((qualite) => qualite.id !== item.id);
         }
     },
     getters: {

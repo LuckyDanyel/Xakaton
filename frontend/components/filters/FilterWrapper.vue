@@ -1,10 +1,14 @@
 <script>
     import PersonalQualityFilter from './personalQualityFilter/PersonalQualityFilter.vue';
     import CommonQualitiyFilter from './commonQualitryFilter/CommonQualitiyFilter.vue';
+    import ProfessionalQualitesFilter from './professionalQualitiesFilter/ProfessionalQualitesFilter.vue';
+    import SkillsFilter from './skillsFilter/SkillsFilter.vue';
     export default {
         components: {
             PersonalQualityFilter,
             CommonQualitiyFilter,
+            ProfessionalQualitesFilter,
+            SkillsFilter,
         },
         
     }
@@ -14,6 +18,8 @@
     <div class="filters__wrapper">
         <personal-quality-filter class="filters__wrapper-filter-item"></personal-quality-filter>
         <common-qualitiy-filter class="filters__wrapper-filter-item"></common-qualitiy-filter>
+        <professional-qualites-filter class="filters__wrapper-filter-item"></professional-qualites-filter>
+        <skills-filter class="filters__wrapper-filter-item"></skills-filter>
     </div>
 </template>
 

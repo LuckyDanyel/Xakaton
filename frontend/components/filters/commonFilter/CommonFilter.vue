@@ -115,13 +115,11 @@
                 width: 8px;
             }
 
-            /* Track */
             &::-webkit-scrollbar-track {
                 background-color: #d8d8d8;
                 border-radius: 10px;
             }
 
-            /* Handle */
             &::-webkit-scrollbar-thumb {
                 background-color: #a2a2a3;
                 border-radius: 10px;

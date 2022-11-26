@@ -28,9 +28,9 @@
                 return procentProfessionalQualites.length;
                 
             };
-            const procentSkills = (allTakenSkils, personalQualite) => {
+            const procentSkills = (allTakenSkils, personalQualites) => {
                 if(!allTakenSkils.length) return 0;
-                const procentSkills = skills.filter((personalQualite) => allTakenSkils.indexOf(personalQualite.id) !== -1);
+                const procentSkills = personalQualites.filter((personalQualite) => allTakenSkils.indexOf(personalQualite.id) !== -1);
                 return procentSkills.length;
                 
             };
