@@ -13152,6 +13152,10 @@ __webpack_require__.r(__webpack_exports__);
     const takenSkills = (0,vue__WEBPACK_IMPORTED_MODULE_0__.computed)(() => store.getters.takenSkillsIds);
     const takenCommonPersonalQualites = (0,vue__WEBPACK_IMPORTED_MODULE_0__.computed)(() => store.getters.takenCommonPersonalQualitesIds);
     const candidates = (0,vue__WEBPACK_IMPORTED_MODULE_0__.computed)(() => store.state.candidatesStore.candidates);
+    const takenPersonalQualitesFull = (0,vue__WEBPACK_IMPORTED_MODULE_0__.computed)(() => store.state.filtersStore.takenPersonalQualites);
+    const takenProfessionalQualitesFull = (0,vue__WEBPACK_IMPORTED_MODULE_0__.computed)(() => store.state.filtersStore.takenProfessionalQualites);
+    const takenSkillsFull = (0,vue__WEBPACK_IMPORTED_MODULE_0__.computed)(() => store.state.filtersStore.takenSkills);
+    const takenCommonPersonalQualitesFull = (0,vue__WEBPACK_IMPORTED_MODULE_0__.computed)(() => store.state.filtersStore.takenCommonPersonalQualites);
     const procentPersonalQualites = (allTakenPersonalQualites, personalQualites) => {
       if (!allTakenPersonalQualites.length) return 0;
       const procentPersonalQualites = personalQualites.filter(personalQualite => (0,vue__WEBPACK_IMPORTED_MODULE_0__.unref)(allTakenPersonalQualites).indexOf(personalQualite.id) !== -1);
@@ -13193,7 +13197,11 @@ __webpack_require__.r(__webpack_exports__);
     });
     const sortCandidatesByProcent = (0,vue__WEBPACK_IMPORTED_MODULE_0__.computed)(() => (0,vue__WEBPACK_IMPORTED_MODULE_0__.unref)(getCandidatesByProcent).sort((a, b) => b.procentValue - a.procentValue));
     return {
-      _candidates: sortCandidatesByProcent
+      _candidates: sortCandidatesByProcent,
+      takenPersonalQualitesFull,
+      takenProfessionalQualitesFull,
+      takenSkillsFull,
+      takenCommonPersonalQualitesFull
     };
   }
 });
@@ -13211,23 +13219,24 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.runtime.esm-bundler.js");
-/* harmony import */ var _Procent_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Procent.vue */ "./frontend/components/candidate/components/Procent.vue");
-/* harmony import */ var _Qualites_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Qualites.vue */ "./frontend/components/candidate/components/Qualites.vue");
-
-
+/* harmony import */ var _Procent_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Procent.vue */ "./frontend/components/candidate/components/Procent.vue");
+/* harmony import */ var _Qualites_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Qualites.vue */ "./frontend/components/candidate/components/Qualites.vue");
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
-    Procent: _Procent_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
-    Qualites: _Qualites_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
+    Procent: _Procent_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
+    Qualites: _Qualites_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
   props: {
     nameProfession: String,
     skills: Array,
     personalQualites: Array,
     professionalQualites: Array,
+    takenSkills: Array,
+    takenPersonalQualites: Array,
+    takenProfessionalQualites: Array,
+    takenCommonQualites: Array,
     procentValue: {
       type: Number,
       default: () => 0
@@ -13275,12 +13284,25 @@ __webpack_require__.r(__webpack_exports__);
     qualitesItems: {
       type: Array,
       default: () => []
+    },
+    takenQualites: {
+      type: Array,
+      default: () => []
     }
   },
-  setup() {
+  setup(props) {
+    const {
+      takenQualites,
+      qualitesItems
+    } = (0,vue__WEBPACK_IMPORTED_MODULE_0__.toRefs)(props);
     const open = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(false);
+    const takenQualitesIds = (0,vue__WEBPACK_IMPORTED_MODULE_0__.computed)(() => (0,vue__WEBPACK_IMPORTED_MODULE_0__.unref)(takenQualites).map(qualite => qualite.id));
+    const qualitesWithoutTaken = (0,vue__WEBPACK_IMPORTED_MODULE_0__.computed)(() => (0,vue__WEBPACK_IMPORTED_MODULE_0__.unref)(qualitesItems).filter(qualite => (0,vue__WEBPACK_IMPORTED_MODULE_0__.unref)(takenQualitesIds).indexOf(qualite.id) === -1));
+    const currentTakensQualites = (0,vue__WEBPACK_IMPORTED_MODULE_0__.computed)(() => (0,vue__WEBPACK_IMPORTED_MODULE_0__.unref)(qualitesItems).filter(qualite => (0,vue__WEBPACK_IMPORTED_MODULE_0__.unref)(takenQualitesIds).indexOf(qualite.id) !== -1));
     return {
-      open
+      open,
+      currentTakensQualites,
+      qualitesWithoutTaken
     };
   }
 });
@@ -13583,9 +13605,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       nameProfession: candidate.name,
       personalQualites: candidate.personalQualities,
       professionalQualites: candidate.professionalQualities,
+      takenSkills: $setup.takenSkillsFull,
+      takenPersonalQualites: $setup.takenPersonalQualitesFull,
+      takenProfessionalQualites: $setup.takenProfessionalQualitesFull,
+      takenCommonQualites: $setup.takenCommonPersonalQualitesFull,
       skills: candidate.skills,
       procentValue: candidate.procentValue
-    }, null, 8 /* PROPS */, ["nameProfession", "personalQualites", "professionalQualites", "skills", "procentValue"]);
+    }, null, 8 /* PROPS */, ["nameProfession", "personalQualites", "professionalQualites", "takenSkills", "takenPersonalQualites", "takenProfessionalQualites", "takenCommonQualites", "skills", "procentValue"]);
   }), 256 /* UNKEYED_FRAGMENT */))]);
 }
 
@@ -13613,37 +13639,43 @@ const _hoisted_2 = {
 const _hoisted_3 = {
   class: "candidate__up"
 };
-const _hoisted_4 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+const _hoisted_4 = {
   class: "candidate__name"
-}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+};
+const _hoisted_5 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
   class: "candidate__name-profession"
-}, " Программист "), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+}, " Программист ", -1 /* HOISTED */);
+const _hoisted_6 = {
+  key: 0,
   class: "candidate__name-icon"
-})], -1 /* HOISTED */);
-const _hoisted_5 = {
+};
+const _hoisted_7 = {
   class: "candidate__middle"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_procent = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("procent");
   const _component_qualites = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("qualites");
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [_hoisted_4, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_procent, {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [_hoisted_5, $props.procentValue > 85 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_6)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_procent, {
     procent: $props.procentValue
-  }, null, 8 /* PROPS */, ["procent"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_qualites, {
-    qualitesItems: $props.personalQualites
+  }, null, 8 /* PROPS */, ["procent"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_qualites, {
+    qualitesItems: $props.personalQualites,
+    takenQualites: $props.takenPersonalQualites
   }, {
     label: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(() => [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Личные качества: ")]),
     _: 1 /* STABLE */
-  }, 8 /* PROPS */, ["qualitesItems"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_qualites, {
-    qualitesItems: $props.professionalQualites
+  }, 8 /* PROPS */, ["qualitesItems", "takenQualites"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_qualites, {
+    qualitesItems: $props.professionalQualites,
+    takenQualites: $props.takenProfessionalQualites
   }, {
     label: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(() => [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Профессиональные качества: ")]),
     _: 1 /* STABLE */
-  }, 8 /* PROPS */, ["qualitesItems"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_qualites, {
-    qualitesItems: $props.skills
+  }, 8 /* PROPS */, ["qualitesItems", "takenQualites"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_qualites, {
+    qualitesItems: $props.skills,
+    takenQualites: $props.takenSkills
   }, {
     label: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(() => [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Навыки: ")]),
     _: 1 /* STABLE */
-  }, 8 /* PROPS */, ["qualitesItems"])])])]);
+  }, 8 /* PROPS */, ["qualitesItems", "takenQualites"])])])]);
 }
 
 /***/ }),
@@ -13710,14 +13742,25 @@ const _hoisted_3 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElemen
 const _hoisted_4 = {
   class: "qualites__item-name"
 };
+const _hoisted_5 = {
+  class: "qualites__item"
+};
+const _hoisted_6 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  class: "qualites__item-icon_gray"
+}, null, -1 /* HOISTED */);
+const _hoisted_7 = {
+  class: "qualites__item-name"
+};
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "qualites__label",
     onClick: _cache[0] || (_cache[0] = () => $setup.open = !$setup.open)
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.renderSlot)(_ctx.$slots, "label")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["qualites__wrapper", $setup.open ? 'qualites__wrapper_open' : ''])
-  }, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.qualitesItems, qualiti => {
+  }, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.currentTakensQualites, qualiti => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_2, [_hoisted_3, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_4, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(qualiti.name), 1 /* TEXT */)]);
+  }), 256 /* UNKEYED_FRAGMENT */)), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.qualitesWithoutTaken, qualiti => {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_5, [_hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_7, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(qualiti.name), 1 /* TEXT */)]);
   }), 256 /* UNKEYED_FRAGMENT */))], 2 /* CLASS */)]);
 }
 
@@ -14016,15 +14059,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/css-loader/dist/runtime/getUrl.js */ "./node_modules/css-loader/dist/runtime/getUrl.js");
 /* harmony import */ var _node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _images_icon_best_small_svg__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./images/icon-best-small.svg */ "./frontend/components/candidate/components/images/icon-best-small.svg");
+/* harmony import */ var _images_icon_best_bad_svg__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./images/icon-best-bad.svg */ "./frontend/components/candidate/components/images/icon-best-bad.svg");
 // Imports
+
 
 
 
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_cssWithMappingToString_js__WEBPACK_IMPORTED_MODULE_0___default()));
 var ___CSS_LOADER_URL_REPLACEMENT_0___ = _node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_2___default()(_images_icon_best_small_svg__WEBPACK_IMPORTED_MODULE_3__);
+var ___CSS_LOADER_URL_REPLACEMENT_1___ = _node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_2___default()(_images_icon_best_bad_svg__WEBPACK_IMPORTED_MODULE_4__);
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".qualites {\n  display: flex;\n  margin-bottom: 6px;\n}\n.qualites__wrapper {\n  display: flex;\n  position: relative;\n  overflow: hidden;\n}\n.qualites__wrapper_open {\n  overflow: visible;\n  flex-wrap: wrap;\n}\n.qualites__item {\n  display: flex;\n  align-items: center;\n  white-space: nowrap;\n}\n.qualites__item-name {\n  margin: 0;\n  padding: 0;\n}\n.qualites__label {\n  white-space: nowrap;\n  display: flex;\n  align-items: center;\n  cursor: pointer;\n}\n.qualites__label, .qualites__item {\n  font-weight: 400;\n  font-family: \"Open Sans\", sans-serif;\n  font-size: 14px;\n  color: #717070;\n}\n.qualites__item-icon {\n  background-image: url(" + ___CSS_LOADER_URL_REPLACEMENT_0___ + ");\n  background-repeat: no-repeat;\n  background-position: center;\n  width: 12px;\n  height: 12px;\n  margin-right: 4px;\n  margin-left: 8px;\n}\n.qualites__wrapper-hiden {\n  position: absolute;\n  background-color: white;\n  border-radius: 6px;\n  padding: 12px;\n  box-shadow: 1px 1px 6px 1px rgba(0, 0, 0, 0.25);\n}", "",{"version":3,"sources":["webpack://./frontend/components/candidate/components/Qualites.vue","webpack://./Qualites.vue"],"names":[],"mappings":"AACI;EACI,aAAA;EACA,kBAAA;ACAR;ADCQ;EACI,aAAA;EACA,kBAAA;EACA,gBAAA;ACCZ;ADCQ;EACI,iBAAA;EACA,eAAA;ACCZ;ADCQ;EACI,aAAA;EACA,mBAAA;EACA,mBAAA;ACCZ;ADCQ;EACI,SAAA;EACA,UAAA;ACCZ;ADCQ;EACI,mBAAA;EACA,aAAA;EACA,mBAAA;EACA,eAAA;ACCZ;ADCQ;EACI,gBAAA;EACA,oCAAA;EACA,eAAA;EACA,cAAA;ACCZ;ADCQ;EACI,yDAAA;EACA,4BAAA;EACA,2BAAA;EACA,WAAA;EACA,YAAA;EACA,iBAAA;EACA,gBAAA;ACCZ;ADCQ;EACI,kBAAA;EACA,uBAAA;EACA,kBAAA;EACA,aAAA;EACA,+CAAA;ACCZ","sourcesContent":["\r\n    .qualites {\r\n        display: flex;\r\n        margin-bottom: 6px;\r\n        &__wrapper {\r\n            display: flex;\r\n            position: relative;\r\n            overflow: hidden;\r\n        }\r\n        &__wrapper_open {\r\n            overflow: visible;\r\n            flex-wrap: wrap;\r\n        }\r\n        &__item {\r\n            display: flex;\r\n            align-items: center;\r\n            white-space: nowrap;\r\n        }\r\n        &__item-name {\r\n            margin: 0;\r\n            padding: 0;\r\n        }\r\n        &__label {\r\n            white-space: nowrap;\r\n            display: flex;\r\n            align-items: center;\r\n            cursor: pointer;\r\n        }\r\n        &__label, &__item {\r\n            font-weight: 400;\r\n            font-family: 'Open Sans', sans-serif;\r\n            font-size: 14px;\r\n            color: #717070;\r\n        }\r\n        &__item-icon {\r\n            background-image: url('./images/icon-best-small.svg');\r\n            background-repeat: no-repeat;\r\n            background-position: center;\r\n            width: 12px;\r\n            height: 12px;\r\n            margin-right: 4px;\r\n            margin-left: 8px;\r\n        }\r\n        &__wrapper-hiden {\r\n            position: absolute;\r\n            background-color: white;\r\n            border-radius: 6px;\r\n            padding: 12px;\r\n            box-shadow: 1px 1px 6px 1px rgba(0, 0, 0, 0.25);\r\n        }\r\n        \r\n    }\r\n",".qualites {\n  display: flex;\n  margin-bottom: 6px;\n}\n.qualites__wrapper {\n  display: flex;\n  position: relative;\n  overflow: hidden;\n}\n.qualites__wrapper_open {\n  overflow: visible;\n  flex-wrap: wrap;\n}\n.qualites__item {\n  display: flex;\n  align-items: center;\n  white-space: nowrap;\n}\n.qualites__item-name {\n  margin: 0;\n  padding: 0;\n}\n.qualites__label {\n  white-space: nowrap;\n  display: flex;\n  align-items: center;\n  cursor: pointer;\n}\n.qualites__label, .qualites__item {\n  font-weight: 400;\n  font-family: \"Open Sans\", sans-serif;\n  font-size: 14px;\n  color: #717070;\n}\n.qualites__item-icon {\n  background-image: url(\"./images/icon-best-small.svg\");\n  background-repeat: no-repeat;\n  background-position: center;\n  width: 12px;\n  height: 12px;\n  margin-right: 4px;\n  margin-left: 8px;\n}\n.qualites__wrapper-hiden {\n  position: absolute;\n  background-color: white;\n  border-radius: 6px;\n  padding: 12px;\n  box-shadow: 1px 1px 6px 1px rgba(0, 0, 0, 0.25);\n}"],"sourceRoot":""}]);
+___CSS_LOADER_EXPORT___.push([module.id, ".qualites {\n  display: flex;\n  margin-bottom: 6px;\n}\n.qualites__wrapper {\n  display: flex;\n  position: relative;\n  overflow: hidden;\n}\n.qualites__wrapper_open {\n  overflow: visible;\n  flex-wrap: wrap;\n}\n.qualites__item {\n  display: flex;\n  align-items: center;\n  white-space: nowrap;\n}\n.qualites__item-name {\n  margin: 0;\n  padding: 0;\n}\n.qualites__label {\n  white-space: nowrap;\n  display: flex;\n  align-items: center;\n  cursor: pointer;\n}\n.qualites__label, .qualites__item {\n  font-weight: 400;\n  font-family: \"Open Sans\", sans-serif;\n  font-size: 14px;\n  color: #717070;\n}\n.qualites__item-icon {\n  background-image: url(" + ___CSS_LOADER_URL_REPLACEMENT_0___ + ");\n  background-repeat: no-repeat;\n  background-position: center;\n  width: 12px;\n  height: 12px;\n  margin-right: 4px;\n  margin-left: 8px;\n}\n.qualites__item-icon_gray {\n  background-image: url(" + ___CSS_LOADER_URL_REPLACEMENT_1___ + ");\n  background-repeat: no-repeat;\n  background-position: center;\n  width: 12px;\n  height: 12px;\n  margin-right: 4px;\n  margin-left: 8px;\n}\n.qualites__wrapper-hiden {\n  position: absolute;\n  background-color: white;\n  border-radius: 6px;\n  padding: 12px;\n  box-shadow: 1px 1px 6px 1px rgba(0, 0, 0, 0.25);\n}", "",{"version":3,"sources":["webpack://./frontend/components/candidate/components/Qualites.vue","webpack://./Qualites.vue"],"names":[],"mappings":"AACI;EACI,aAAA;EACA,kBAAA;ACAR;ADCQ;EACI,aAAA;EACA,kBAAA;EACA,gBAAA;ACCZ;ADCQ;EACI,iBAAA;EACA,eAAA;ACCZ;ADCQ;EACI,aAAA;EACA,mBAAA;EACA,mBAAA;ACCZ;ADCQ;EACI,SAAA;EACA,UAAA;ACCZ;ADCQ;EACI,mBAAA;EACA,aAAA;EACA,mBAAA;EACA,eAAA;ACCZ;ADCQ;EACI,gBAAA;EACA,oCAAA;EACA,eAAA;EACA,cAAA;ACCZ;ADCQ;EACI,yDAAA;EACA,4BAAA;EACA,2BAAA;EACA,WAAA;EACA,YAAA;EACA,iBAAA;EACA,gBAAA;ACCZ;ADCQ;EACI,yDAAA;EACA,4BAAA;EACA,2BAAA;EACA,WAAA;EACA,YAAA;EACA,iBAAA;EACA,gBAAA;ACCZ;ADCQ;EACI,kBAAA;EACA,uBAAA;EACA,kBAAA;EACA,aAAA;EACA,+CAAA;ACCZ","sourcesContent":["\r\n    .qualites {\r\n        display: flex;\r\n        margin-bottom: 6px;\r\n        &__wrapper {\r\n            display: flex;\r\n            position: relative;\r\n            overflow: hidden;\r\n        }\r\n        &__wrapper_open {\r\n            overflow: visible;\r\n            flex-wrap: wrap;\r\n        }\r\n        &__item {\r\n            display: flex;\r\n            align-items: center;\r\n            white-space: nowrap;\r\n        }\r\n        &__item-name {\r\n            margin: 0;\r\n            padding: 0;\r\n        }\r\n        &__label {\r\n            white-space: nowrap;\r\n            display: flex;\r\n            align-items: center;\r\n            cursor: pointer;\r\n        }\r\n        &__label, &__item {\r\n            font-weight: 400;\r\n            font-family: 'Open Sans', sans-serif;\r\n            font-size: 14px;\r\n            color: #717070;\r\n        }\r\n        &__item-icon {\r\n            background-image: url('./images/icon-best-small.svg');\r\n            background-repeat: no-repeat;\r\n            background-position: center;\r\n            width: 12px;\r\n            height: 12px;\r\n            margin-right: 4px;\r\n            margin-left: 8px;\r\n        }\r\n        &__item-icon_gray {\r\n            background-image: url('./images/icon-best-bad.svg');\r\n            background-repeat: no-repeat;\r\n            background-position: center;\r\n            width: 12px;\r\n            height: 12px;\r\n            margin-right: 4px;\r\n            margin-left: 8px;\r\n        }\r\n        &__wrapper-hiden {\r\n            position: absolute;\r\n            background-color: white;\r\n            border-radius: 6px;\r\n            padding: 12px;\r\n            box-shadow: 1px 1px 6px 1px rgba(0, 0, 0, 0.25);\r\n        }\r\n        \r\n    }\r\n",".qualites {\n  display: flex;\n  margin-bottom: 6px;\n}\n.qualites__wrapper {\n  display: flex;\n  position: relative;\n  overflow: hidden;\n}\n.qualites__wrapper_open {\n  overflow: visible;\n  flex-wrap: wrap;\n}\n.qualites__item {\n  display: flex;\n  align-items: center;\n  white-space: nowrap;\n}\n.qualites__item-name {\n  margin: 0;\n  padding: 0;\n}\n.qualites__label {\n  white-space: nowrap;\n  display: flex;\n  align-items: center;\n  cursor: pointer;\n}\n.qualites__label, .qualites__item {\n  font-weight: 400;\n  font-family: \"Open Sans\", sans-serif;\n  font-size: 14px;\n  color: #717070;\n}\n.qualites__item-icon {\n  background-image: url(\"./images/icon-best-small.svg\");\n  background-repeat: no-repeat;\n  background-position: center;\n  width: 12px;\n  height: 12px;\n  margin-right: 4px;\n  margin-left: 8px;\n}\n.qualites__item-icon_gray {\n  background-image: url(\"./images/icon-best-bad.svg\");\n  background-repeat: no-repeat;\n  background-position: center;\n  width: 12px;\n  height: 12px;\n  margin-right: 4px;\n  margin-left: 8px;\n}\n.qualites__wrapper-hiden {\n  position: absolute;\n  background-color: white;\n  border-radius: 6px;\n  padding: 12px;\n  box-shadow: 1px 1px 6px 1px rgba(0, 0, 0, 0.25);\n}"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -17185,6 +17231,17 @@ var index = {
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (index);
 
 
+
+/***/ }),
+
+/***/ "./frontend/components/candidate/components/images/icon-best-bad.svg":
+/*!***************************************************************************!*\
+  !*** ./frontend/components/candidate/components/images/icon-best-bad.svg ***!
+  \***************************************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+module.exports = __webpack_require__.p + "./images/icon-best-bad.svg";
 
 /***/ }),
 

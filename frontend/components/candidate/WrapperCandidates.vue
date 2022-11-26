@@ -16,6 +16,11 @@
             const takenCommonPersonalQualites = computed(() => store.getters.takenCommonPersonalQualitesIds);
             const candidates = computed(() => store.state.candidatesStore.candidates);
 
+            const takenPersonalQualitesFull = computed(() => store.state.filtersStore.takenPersonalQualites)
+            const takenProfessionalQualitesFull = computed(() => store.state.filtersStore.takenProfessionalQualites)
+            const takenSkillsFull = computed(() => store.state.filtersStore.takenSkills)
+            const takenCommonPersonalQualitesFull = computed(() => store.state.filtersStore.takenCommonPersonalQualites)
+
             const procentPersonalQualites = (allTakenPersonalQualites, personalQualites) => {
                 if(!allTakenPersonalQualites.length) return 0;
                 const procentPersonalQualites = personalQualites.filter((personalQualite) => unref(allTakenPersonalQualites).indexOf(personalQualite.id) !== -1);
@@ -68,6 +73,10 @@
 
             return {
                 _candidates: sortCandidatesByProcent,
+                takenPersonalQualitesFull,
+                takenProfessionalQualitesFull,
+                takenSkillsFull,
+                takenCommonPersonalQualitesFull,
             }
         }
     }
@@ -80,6 +89,12 @@
             :nameProfession="candidate.name"
             :personalQualites="candidate.personalQualities"
             :professionalQualites="candidate.professionalQualities"
+
+            :takenSkills="takenSkillsFull"
+            :takenPersonalQualites="takenPersonalQualitesFull"
+            :takenProfessionalQualites="takenProfessionalQualitesFull"
+            :takenCommonQualites="takenCommonPersonalQualitesFull"
+            
             :skills="candidate.skills"
             :procentValue="candidate.procentValue"
         ></candidate>

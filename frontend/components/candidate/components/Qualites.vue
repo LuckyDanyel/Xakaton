@@ -1,17 +1,30 @@
 <script>
-    import { ref } from 'vue';
+    import { ref, computed, toRefs, unref } from 'vue';
     export default {
         props: {
             qualitesItems: {
                 type: Array,
                 default: () => [],
+            },
+            takenQualites: {
+                type: Array,
+                default: () => []
             }
         },
-        setup() {
+        setup(props) {
+            const { takenQualites, qualitesItems } = toRefs(props);
             const open = ref(false);
-            
+               
+            const takenQualitesIds = computed(() => unref(takenQualites).map((qualite) => qualite.id));
+
+            const qualitesWithoutTaken = computed(() => unref(qualitesItems).filter((qualite) => unref(takenQualitesIds).indexOf(qualite.id) === -1));
+
+            const currentTakensQualites = computed(() => unref(qualitesItems).filter((qualite) => unref(takenQualitesIds).indexOf(qualite.id) !== -1));
+
             return {
                 open,
+                currentTakensQualites,
+                qualitesWithoutTaken,
             }
         }
     }
@@ -27,9 +40,17 @@
         </div>
         <div class="qualites__wrapper" :class="open ? 'qualites__wrapper_open' : ''">
             <div class="qualites__item"
-                v-for="qualiti in qualitesItems"
+                v-for="qualiti in currentTakensQualites"
             >
                 <div class="qualites__item-icon"></div>
+                <p class="qualites__item-name">
+                    {{ qualiti.name }}
+                </p>
+            </div>
+            <div class="qualites__item"
+                v-for="qualiti in qualitesWithoutTaken"
+            >
+                <div class="qualites__item-icon_gray"></div>
                 <p class="qualites__item-name">
                     {{ qualiti.name }}
                 </p>
@@ -74,6 +95,15 @@
         }
         &__item-icon {
             background-image: url('./images/icon-best-small.svg');
+            background-repeat: no-repeat;
+            background-position: center;
+            width: 12px;
+            height: 12px;
+            margin-right: 4px;
+            margin-left: 8px;
+        }
+        &__item-icon_gray {
+            background-image: url('./images/icon-best-bad.svg');
             background-repeat: no-repeat;
             background-position: center;
             width: 12px;

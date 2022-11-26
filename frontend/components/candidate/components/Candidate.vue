@@ -1,6 +1,4 @@
 <script>
-    import { computed, isReactive, unref } from 'vue';
-    import { useStore } from 'vuex';
     import Procent from './Procent.vue';
     import Qualites from './Qualites.vue';
     export default {
@@ -13,6 +11,11 @@
             skills: Array,
             personalQualites: Array,
             professionalQualites: Array,
+
+            takenSkills: Array,
+            takenPersonalQualites: Array,
+            takenProfessionalQualites: Array,
+            takenCommonQualites: Array,
             procentValue: {
                 type: Number,
                 default: () => 0,
@@ -30,7 +33,7 @@
             <div class="candidate__up">
                 <div class="candidate__name">
                     <div class="candidate__name-profession"> Программист </div>
-                    <div class="candidate__name-icon"></div>
+                    <div class="candidate__name-icon" v-if="procentValue > 85"></div>
                 </div>
                 <procent
                     :procent="procentValue"
@@ -39,12 +42,15 @@
             <div class="candidate__middle">
                 <qualites
                     :qualitesItems="personalQualites"
+                    :takenQualites="takenPersonalQualites"
                 > <template #label> Личные качества: </template> </qualites>
                 <qualites
                     :qualitesItems="professionalQualites"
+                    :takenQualites="takenProfessionalQualites"
                 > <template #label> Профессиональные качества: </template> </qualites>
                 <qualites
                     :qualitesItems="skills"
+                    :takenQualites="takenSkills"
                 > <template #label> Навыки: </template> </qualites>
             </div>
         </div>

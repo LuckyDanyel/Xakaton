@@ -1,11 +1,9 @@
 const path = require('path');
 const HTMLWebpackPlugin = require('html-webpack-plugin');
-const webpack = require('webpack');
 const isDev = process.env.NODE_ENV === 'development';
 const isProd = !isDev;
 const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 const { VueLoaderPlugin } = require("vue-loader");
-const HtmlWebpackPugPlugin = require('html-webpack-pug-plugin');
 
 
 const filename = (ext) => isDev ? `[name].${ext}` : `[name].[contenthash].${ext}`;
