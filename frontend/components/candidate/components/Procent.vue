@@ -57,6 +57,8 @@
         }
 
         &__wrapper-value {
+            outline: 1px solid #c7c7c7;
+            border-radius: 12px;
             position: relative;
         }
 
