@@ -38,7 +38,7 @@
         >
             <slot name="label"></slot>
         </div>
-        <div class="qualites__wrapper" :class="open ? 'qualites__wrapper_open' : ''">
+        <div class="qualites__wrapper" :class="open ? 'qualites__wrapper_open' : ''" @click="() => open = !open">
             <div class="qualites__item"
                 v-for="qualiti in currentTakensQualites"
             >
@@ -67,6 +67,7 @@
             display: flex;
             position: relative;
             overflow: hidden;
+            cursor: pointer;
         }
         &__wrapper_open {
             overflow: visible;

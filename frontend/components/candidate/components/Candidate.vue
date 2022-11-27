@@ -1,12 +1,17 @@
 <script>
     import Procent from './Procent.vue';
     import Qualites from './Qualites.vue';
+    import Tooltip from '@/components/tooltip/Tooltip.vue';
+    import ButtonCompareCandidate from './ButtonCompareCandidate.vue';
     export default {
         components: {
             Procent,
             Qualites,
+            ButtonCompareCandidate,
+            Tooltip,
         },
         props: {
+            idCanidate: Number,
             nameProfession: String,
             skills: Array,
             personalQualites: Array,
@@ -21,8 +26,17 @@
                 default: () => 0,
             }
         },
-        setup(props) {
-
+        setup(props, { emit }) {
+            const canidadateClick = (idCanidate) => {
+                emit('clickCandidate', idCanidate)
+            }
+            const candidateDelete = () => {
+                emit('deleteCandidate')
+            };
+            return {
+                canidadateClick,
+                candidateDelete,
+            }
         }
     }
 </script>
@@ -32,8 +46,15 @@
         <div class="candidate__wrapper">
             <div class="candidate__up">
                 <div class="candidate__name">
-                    <div class="candidate__name-profession"> Программист </div>
-                    <div class="candidate__name-icon" v-if="procentValue > 85"></div>
+                    <div class="candidate__name-profession"> {{ nameProfession }} </div>
+                    <tooltip v-if="procentValue > 85">
+                        <template #content>
+                            Идеальный кандидат
+                        </template>
+                        <template #icon>
+                            <div class="candidate__name-icon"></div>
+                        </template>
+                    </tooltip>
                 </div>
                 <procent
                     :procent="procentValue"
@@ -52,6 +73,14 @@
                     :qualitesItems="skills"
                     :takenQualites="takenSkills"
                 > <template #label> Навыки: </template> </qualites>
+            </div>
+            <div class="candidate__down">
+                <button-compare-candidate
+                    @clickCandidate="canidadateClick"
+                    @deleteCandidate="candidateDelete"
+                >
+
+                </button-compare-candidate>
             </div>
         </div>
     </div>
@@ -94,6 +123,9 @@
             box-shadow: 1px 1px 6px 1px rgba(0, 0, 0, 0.25);
             border-radius: 6px;
             max-width: 720px;
+        }
+        &__down {
+            margin-top: 16px;
         }
     }
 </style>

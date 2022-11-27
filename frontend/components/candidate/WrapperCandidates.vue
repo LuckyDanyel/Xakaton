@@ -69,6 +69,13 @@
                 })
             });
 
+            const takeCandidate = (idCandidate) => {
+                store.commit('addCandidate');
+            }
+            const deleteCandidate = () => {
+                store.commit('deleteCandidate');
+            }
+
             const sortCandidatesByProcent = computed(() => unref(getCandidatesByProcent).sort((a, b) => b.procentValue - a.procentValue));
 
             return {
@@ -77,6 +84,8 @@
                 takenProfessionalQualitesFull,
                 takenSkillsFull,
                 takenCommonPersonalQualitesFull,
+                takeCandidate,
+                deleteCandidate,
             }
         }
     }
@@ -86,7 +95,7 @@
     <div class="candidates-wrapper">
         <candidate
             v-for="candidate in _candidates"
-            :nameProfession="candidate.name"
+            :nameProfession="candidate.proffession.name"
             :personalQualites="candidate.personalQualities"
             :professionalQualites="candidate.professionalQualities"
 
@@ -97,6 +106,9 @@
             
             :skills="candidate.skills"
             :procentValue="candidate.procentValue"
+            :idCanidate="candidate.proffession.id"
+            @clickCandidate="takeCandidate"
+            @deleteCandidate="deleteCandidate"
         ></candidate>
     </div>
 </template>

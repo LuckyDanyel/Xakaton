@@ -66,8 +66,8 @@ export const Candidates = [
             name: 'it-техонологии'
         },
         proffession: {
-            id: 1,
-            name: 'Программист'
+            id: 2,
+            name: 'Frontend developer'
         },
         personalQualities: [
             {
@@ -104,8 +104,8 @@ export const Candidates = [
             name: 'it-техонологии'
         },
         proffession: {
-            id: 1,
-            name: 'Программист'
+            id: 3,
+            name: 'Backend Developer'
         },
         personalQualities: [
             {
@@ -146,7 +146,7 @@ export const Candidates = [
         },
         proffession: {
             id: 1,
-            name: 'Программист'
+            name: 'Full-stack developer'
         },
         personalQualities: [
             {

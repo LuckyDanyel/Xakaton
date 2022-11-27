@@ -1,5 +1,9 @@
 <script>
+    import Tooltip from '@/components/tooltip/Tooltip.vue';
     export default {
+        components: {
+            Tooltip,
+        },
         props: {
             procent: Number,    
         },
@@ -11,9 +15,19 @@
         <div class="procent__name-value">
             {{ procent }} %
         </div>
-        <div class="procent">
-            <div class="procent__wrapper"></div>
-            <div class="procent__value" :style="{ width: procent + '%', }"></div>
+        <div class="procent__wrapper-value">
+            <div class="procent">
+                <div class="procent__wrapper"></div>
+                <div class="procent__value" :style="{ width: procent + '%', }"></div>
+            </div>
+            <div class="procent__wrapper-question" v-if="procent">
+                <tooltip> 
+                    <template #content> Процент совпадений </template>
+                    <template #icon>
+                        <div class="procent__wrapper-question-icon">  </div>
+                    </template>
+                </tooltip>
+            </div>
         </div>
     </div>
 </template>
@@ -26,6 +40,26 @@
         border-radius: 12px;
         height: 30px;
         min-width: 240px;
+
+        &__wrapper-question {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            left: 10px;
+        }
+
+        &__wrapper-question-icon {
+            width: 16px;
+            height: 16px;
+            background-image: url('./images/Question.svg');
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+
+        &__wrapper-value {
+            position: relative;
+        }
+
         &__container {
             display: flex;
             align-items: center;
